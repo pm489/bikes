@@ -43,22 +43,33 @@ var geocodeLocation = function (location) {
 var getNearestBikeDock = function (longatiude, lattude, raidus) {
   var deferred = Q.defer();
 
-  http.get('http://http://api.tfl.gov.uk/BikePoint?lat='+lattude+'&lon='+longatiude+'&radius='+raidus+'&app_id=&app_key=', function (response) {
+  http.get('http://api.tfl.gov.uk/BikePoint?lat=' + lattude + '&lon=' + longatiude + '&radius=' + raidus + '&app_id=&app_key=', function (response) {
     if (response.statusCode === 200) {
       var body = '';
 
       response.on('data', function (chunk) {
         body += chunk;
       });
-      response.on('end',function(){
-        body = body.JSON.parse(body);
+      response.on('end', function () {
+        body = JSON.parse(body);
+        var places=body['places'];
+        var nearestPlace = places[0];
+        var lat = nearestPlace['lat'];
+        var lon = nearestPlace['lon'];
+        var extraInfo = nearestPlace['additionalProperties'];
+
+        var availableBikes=__.find(extraInfo,function(info){
+          return info["key"]==='NbBikes';
+        })['value'];
 
 
+
+        deferred.resolve({lat: lat,lon:lon,startLon:longatiude,startLat:lattude,radius:raidus,availableBikes:availableBikes});
       })
     }
   });
 
-  return deferred.promise();
+  return deferred.promise;
 };
 
 
