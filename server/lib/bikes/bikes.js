@@ -29,11 +29,11 @@ var geocodeLocation = function (location) {
         if (body['status'] == 'OK') {
           deferred.resolve(body['results'][0]['geometry']['location']);
         } else {
-          deferred.reject(new Error("no results found for that location and body status" + JSON.stringify(body['status'])));
+          deferred.reject(new Error("no results found for that location and body.status is" + JSON.stringify(body['status'])));
         }
       })
     } else {
-      deferred.reject(new Error(response));
+      deferred.reject(new Error('{status:'+response.statusCode+'}'));
     }
   });
 
@@ -52,20 +52,32 @@ var getNearestBikeDock = function (longatiude, lattude, raidus) {
       });
       response.on('end', function () {
         body = JSON.parse(body);
-        var places=body['places'];
-        var nearestPlace = places[0];
-        var lat = nearestPlace['lat'];
-        var lon = nearestPlace['lon'];
-        var extraInfo = nearestPlace['additionalProperties'];
+        var places = body['places'];
 
-        var availableBikes=__.find(extraInfo,function(info){
-          return info["key"]==='NbBikes';
-        })['value'];
+        if (places.length == 0) {
+          deferred.reject(new Error("no places found"));
+        } else {
+          var nearestPlace = places[0];
+          var lat = nearestPlace['lat'];
+          var lon = nearestPlace['lon'];
+          var extraInfo = nearestPlace['additionalProperties'];
 
+          var availableBikes = __.find(extraInfo, function (info) {
+            return info["key"] === 'NbBikes';
+          })['value'];
 
-
-        deferred.resolve({lat: lat,lon:lon,startLon:longatiude,startLat:lattude,radius:raidus,availableBikes:availableBikes});
+          deferred.resolve({
+            lat: lat,
+            lon: lon,
+            startLon: longatiude,
+            startLat: lattude,
+            radius: raidus,
+            availableBikes: availableBikes
+          });
+        }
       })
+    }else {
+      deferred.reject(new Error('{status:'+response.statusCode+'}'));
     }
   });
 
