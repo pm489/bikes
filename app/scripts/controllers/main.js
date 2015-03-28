@@ -24,9 +24,9 @@ app.factory('userLocationDetails', function ($http) {
 
 app.controller('MainCtrl', function ($scope, userLocationDetails) {
   $scope.userDetails = {
-    location: 'London',
-    'longitude': 40.7127,
-    'latitude': 51.4738
+    location: 'Lincoln',
+    'longitude': 96.41,
+    'latitude': 40.49
   };
 
   $scope.map = {
@@ -53,8 +53,6 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   }).catch(function () {
     $scope.serviceError = true;
   });
-
-
 
 
   var updateCenter = function () {
