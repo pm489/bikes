@@ -37,6 +37,10 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
     zoom: 12
   };
 
+  $scope.marker={
+
+  };
+
   $scope.nearestBike = {};
 
   $scope.submit = function () {
@@ -50,9 +54,11 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   userLocationDetails.setUserDetails().then(function (response) {
     console.log(response);
     $scope.userDetails = {location: response.city, latitude: response.latitude, longitude: response.longitude};
+    $scope.marker={ id:'home',coords:{latitude: response.latitude, longitude: response.longitude}};
   }).catch(function () {
     $scope.serviceError = true;
   });
+
 
 
   var updateCenter = function () {
