@@ -79,13 +79,15 @@ var getNearestBikeDock = function (longatiude, lattude, raidus) {
 
 var getNearestBike = function (location, radius) {
 
- return  geocodeLocation(location)
+  return geocodeLocation(location)
     .then(function (location) {
       return getNearestBikeDock(location.lon, location.lat, radius)
         .then(function (result) {
           return result;
         }
       );
+    }).catch(function(error){
+      throw new Error(error.message);
     });
 
 };
