@@ -4,14 +4,6 @@ var __ = require('underscore');
 var Q = require('q');
 
 
-var getNearestBike = function (location) {
-  var deferred = Q.defer;
-
-  geocodeLocation(location);
-
-  return deferred.promise();
-};
-
 var geocodeLocation = function (location) {
   var deferred = Q.defer();
 
@@ -27,13 +19,14 @@ var geocodeLocation = function (location) {
       response.on('end', function () {
         body = JSON.parse(body);
         if (body['status'] == 'OK') {
-          deferred.resolve(body['results'][0]['geometry']['location']);
+          var location = body['results'][0]['geometry']['location'];
+          deferred.resolve({lon: location.lng, lat: location.lat});
         } else {
           deferred.reject(new Error("no results found for that location and body.status is" + JSON.stringify(body['status'])));
         }
       })
     } else {
-      deferred.reject(new Error('{status:'+response.statusCode+'}'));
+      deferred.reject(new Error('{status:' + response.statusCode + '}'));
     }
   });
 
@@ -76,12 +69,25 @@ var getNearestBikeDock = function (longatiude, lattude, raidus) {
           });
         }
       })
-    }else {
-      deferred.reject(new Error('{status:'+response.statusCode+'}'));
+    } else {
+      deferred.reject(new Error('{status:' + response.statusCode + '}'));
     }
   });
 
   return deferred.promise;
+};
+
+var getNearestBike = function (location, radius) {
+
+ return  geocodeLocation(location)
+    .then(function (location) {
+      return getNearestBikeDock(location.lon, location.lat, radius)
+        .then(function (result) {
+          return result;
+        }
+      );
+    });
+
 };
 
 

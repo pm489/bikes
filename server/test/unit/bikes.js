@@ -5,13 +5,14 @@ var nock = require('nock');
 
 describe('Bikes', function () {
 
-  describe('can ', function () {
+
+  describe('can find bike points  ', function () {
 
     var lat = 123;
     var lon = 456;
     var radius = 1000;
 
-    it('can get nearest point', function (done) {
+    it('using lat and lon', function (done) {
 
       var resultLat = 51.502279;
       var resultLng = -0.074189;
@@ -68,25 +69,24 @@ describe('Bikes', function () {
           "centrePoint": [45.678, -0.069],
           "places": []
         });
-      bikes.getNearestBikeDock(lon, lat, radius).catch(function(error){
-        assert.equal(error.message,"{status:500}");
+      bikes.getNearestBikeDock(lon, lat, radius).catch(function (error) {
+        assert.equal(error.message, "{status:500}");
         done();
       }).done();
 
     });
 
-    it('throw error if code is not 200',function(done){
+    it('throw error if code is not 200', function (done) {
 
       nock('http://api.tfl.gov.uk').get('/BikePoint?lat=' + lat + '&lon=' + lon + '&radius=' + radius + '&app_id=&app_key=')
         .reply(500);
-      bikes.getNearestBikeDock(lon, lat, radius).catch(function(error){
-        assert.equal(error.message,'{status:500}');
+      bikes.getNearestBikeDock(lon, lat, radius).catch(function (error) {
+        assert.equal(error.message, '{status:500}');
         done();
       }).done();
     })
 
   });
-
 
 
   describe('can get long and lat position (best guess) from address', function () {
@@ -123,7 +123,7 @@ describe('Bikes', function () {
 
       bikes.geocodeLocation('london').then(function (result) {
         assert.equal(result.lat, "123");
-        assert.equal(result.lng, "456");
+        assert.equal(result.lon, "456");
         done();
       }).done();
     });
