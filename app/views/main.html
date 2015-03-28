@@ -8,13 +8,20 @@
     Where I am: <input type="text" ng-model="userDetails.location"/>
     <input type="submit"  value="cycle time"/>
   </form>
+<p>
+  {{ nearestBike }}
+  {{userDetails.location}}
+  {{map.center}}
+  before userDeailtd
+  {{userDetails.latitude}}
+  {{userDetails.longitude}}
+</p>
 
 </div>
 
 <div>
+    <ui-gmap-google-map center="map.center" zoom="map.zoom">
 
-  <ui-gmap-google-map control='map.control' center='map.center' zoom='map.zoom'></ui-gmap-google-map>
-  <p>
-  {{map.control}}
-  </p>
+    </ui-gmap-google-map>
+
 </div>

@@ -86,7 +86,7 @@ var getNearestBike = function (location, radius) {
           return result;
         }
       );
-    }).catch(function(error){
+    }).catch(function (error) {
       throw new Error(error.message);
     });
 

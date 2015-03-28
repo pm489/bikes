@@ -363,6 +363,7 @@ module.exports = function (grunt) {
             'bower_components/angular-mocks/angular-mocks.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/angular-touch/angular-touch.js',
+            'bower_components/angular-google-maps/dist/angular-google-maps.js',
             'app/**/*.js',
             'test/**/*.js'
 

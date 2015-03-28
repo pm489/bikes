@@ -12,11 +12,11 @@ app.factory('userLocationDetails', function ($http) {
     );
   };
 
-  details.getNearestBike = function (location) {
-    var host = 'http://locahost:9000';
-    return $http.get(host + '/bikes').then(function (result) {
+  details.getNearestBike = function (location, radius) {
+    var host = 'http://localhost:3000';
+    return $http.get(host + '/bikes?location=' + location + '&radius=' + radius).then(function (result) {
       return result.data;
-    })
+    });
   };
 
   return details;
@@ -29,28 +29,43 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
     'latitude': 51.4738
   };
 
-  $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8, control: {} };
+  $scope.map = {
+    center: {
+      latitude: $scope.userDetails.latitude,
+      longitude: $scope.userDetails.longitude
+    },
+    zoom: 12
+  };
 
+  $scope.nearestBike = {};
 
   $scope.submit = function () {
-    userLocationDetails.getNearestBike();
+    userLocationDetails.getNearestBike($scope.userDetails.location).then(function (response) {
+      $scope.nearestBike = response;
+    });
   };
 
   $scope.serviceError = false;
 
   userLocationDetails.setUserDetails().then(function (response) {
+    console.log(response);
     $scope.userDetails = {location: response.city, latitude: response.latitude, longitude: response.longitude};
   }).catch(function () {
     $scope.serviceError = true;
   });
 
 
-/*  var updateCenter = function () {
-    $scope.map.control.getGMap();
+
+
+  var updateCenter = function () {
+    $scope.map.center = {
+      latitude: $scope.userDetails.latitude,
+      longitude: $scope.userDetails.longitude
+    };
   };
 
-  $scope.$watch('lat', updateCenter);
-  $scope.$watch('long', updateCenter);*/
+  $scope.$watch('userDetails', updateCenter);
+
 
 
 });
