@@ -1,4 +1,5 @@
 'use strict';
+var contentString = '<div><h3>You, Right Now!</h3></div>';
 
 var app = angular.module('yoAngularApp');
 
@@ -28,6 +29,7 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
     'longitude': 96.41,
     'latitude': 40.49
   };
+  $scope.radius = 500;
 
   $scope.map = {
     center: {
@@ -40,11 +42,16 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   $scope.markers = {};
   $scope.markers.marker = [];
 
-  $scope.nearestBike = {};
 
   $scope.submit = function () {
-    userLocationDetails.getNearestBike($scope.userDetails.location).then(function (response) {
-      $scope.nearestBike = response;
+    userLocationDetails.getNearestBike($scope.userDetails.location, $scope.radius).then(function (response) {
+      console.log(response);
+
+      var items = {id: 'start',
+        latitude: response.lat,
+        options: {maxWidth: 400, content: contentString},
+        longitude: response.lon};
+      $scope.markers.marker.push(items);
     });
   };
 
@@ -53,7 +60,17 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   userLocationDetails.setUserDetails().then(function (response) {
     console.log(response);
     $scope.userDetails = {location: response.city, latitude: response.latitude, longitude: response.longitude};
-    $scope.markers.marker.push({id: 'home', latitude: response.latitude, longitude: response.longitude});
+    var items = {
+      show: false,
+      id: 'home',
+      options: {maxWidth: 400, content: contentString},
+      latitude: response.latitude,
+      longitude: response.longitude
+    };
+    items.onClick = function () {
+      items.show = !items.show;
+    };
+    $scope.markers.marker.push(items);
   }).catch(function () {
     $scope.serviceError = true;
   });
@@ -67,6 +84,5 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   };
 
   $scope.$watch('userDetails', updateCenter);
-
 
 });
