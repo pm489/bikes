@@ -1,4 +1,5 @@
 var express = require('express');
+var bikes = require('./bikes.js');
 var app = module.exports = express();
 
 app.get('/bikes', function (req, res) {
@@ -6,5 +7,8 @@ app.get('/bikes', function (req, res) {
   if(currentLocation==="unset"){
     res.status(501).send("No location defined. api: /bikes?location=");
   }
-  res.send("yo yo yo");
+
+  bikes.geocodeLocation(currentLocation).then(function(response){
+    res.send("done" + JSON.stringify(response));
+  }).done();
 });
