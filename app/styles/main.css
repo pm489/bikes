@@ -77,5 +77,5 @@ body {
     border-bottom: 0;
   }
 }
-
+#map-content {width: 200px; height:100px; }
 .angular-google-map-container { height: 400px; }
