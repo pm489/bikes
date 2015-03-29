@@ -3,14 +3,14 @@
 
   <p class="lead">
     <br>
-    Where are some boris bikes near by...
+    Where are some near by boris bikes?
   </p>
 
   <form ng-submit="submit()">
-    <label>Where I am:</label> <input type="text" ng-model="userDetails.location"/>
-    <label>Where I want to go:</label> <input type="text" placeholder="where to?" ng-model="userDetails.destination"/>
-    <label>Radius:</label> <input type="text" ng-model="userDetails.radius"/>
-    <input type="submit" value="cycle time"/>
+    <div><label>Where I am:</label> <input type="text" ng-model="userDetails.location"/></div>
+    <div><label>Where I want to go:</label> <input type="text" placeholder="where to?" ng-model="userDetails.destination"/></div>
+    <div><label>Radius (m):</label> <input type="text" ng-model="userDetails.radius"/></div>
+    <input type="submit" value="Find Bikes"/>
   </form>
 </div>
 
