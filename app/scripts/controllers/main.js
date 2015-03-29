@@ -1,5 +1,4 @@
 'use strict';
-var contentString = '<div><h3>You, Right Now!</h3></div>';
 
 var app = angular.module('yoAngularApp');
 
@@ -51,7 +50,7 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
         latitude: response.lat,
         options: {maxWidth: 400, content: contentString},
         longitude: response.lon};
-      $scope.markers.marker.push(items);
+      $scope.markers.marker.push(makeMarker(response));
     });
   };
 
@@ -60,21 +59,25 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   userLocationDetails.setUserDetails().then(function (response) {
     console.log(response);
     $scope.userDetails = {location: response.city, latitude: response.latitude, longitude: response.longitude};
-    var items = {
-      show: false,
-      id: 'home',
-      options: {maxWidth: 400, content: contentString},
-      latitude: response.latitude,
-      longitude: response.longitude
-    };
-    items.onClick = function () {
-      items.show = !items.show;
-    };
-    $scope.markers.marker.push(items);
+    $scope.markers.marker.push(makeMarker(response,'home','You right now'));
   }).catch(function () {
     $scope.serviceError = true;
   });
 
+  var makeMarker = function(response, id, header, content){
+    var contentString = '<div><h3>'+header+'</h3><p>'+content+'</p></div>';
+    var item = {
+      show: false,
+      id: id,
+      options: {maxWidth: 400, content: contentString},
+      latitude: response.latitude,
+      longitude: response.longitude
+    };
+    item.onClick = function () {
+      item.show = !item.show;
+    };
+    return item;
+  };
 
   var updateCenter = function () {
     $scope.map.center = {

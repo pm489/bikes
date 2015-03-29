@@ -51,8 +51,8 @@ describe('Bikes', function () {
 
 
       bikes.getNearestBikeDock(lon, lat, radius).then(function (results) {
-        assert.equal(results.lat, resultLat);
-        assert.equal(results.lon, resultLng);
+        assert.equal(results.latitude, resultLat);
+        assert.equal(results.longitude, resultLng);
         assert.equal(results.startLon, lon);
         assert.equal(results.startLat, lat);
         assert.equal(results.radius, radius);

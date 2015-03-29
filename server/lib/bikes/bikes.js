@@ -34,12 +34,12 @@ var geocodeLocation = function (location) {
   return deferred.promise;
 };
 
-var getNearestBikeDock = function (longatiude, lattude, raidus) {
+var getNearestBikeDock = function (longatiude, latitude, raidus) {
   var deferred = Q.defer();
 
-  console.log('http://api.tfl.gov.uk/BikePoint?lat=' + lattude + '&lon=' + longatiude + '&radius=' + raidus + '&app_id=&app_key=');
+  console.log('http://api.tfl.gov.uk/BikePoint?lat=' + latitude + '&lon=' + longatiude + '&radius=' + raidus + '&app_id=&app_key=');
 
-  http.get('http://api.tfl.gov.uk/BikePoint?lat=' + lattude + '&lon=' + longatiude + '&radius=' + raidus + '&app_id=&app_key=', function (response) {
+  http.get('http://api.tfl.gov.uk/BikePoint?lat=' + latitude + '&lon=' + longatiude + '&radius=' + raidus + '&app_id=&app_key=', function (response) {
     if (response.statusCode === 200) {
       var body = '';
 
@@ -66,15 +66,15 @@ var getNearestBikeDock = function (longatiude, lattude, raidus) {
             lat: lat,
             lon: lon,
             startLon: longatiude,
-            startLat: lattude,
+            startLat: latitude,
             radius: raidus,
             availableBikes: availableBikes
           });
           deferred.resolve({
-            lat: lat,
-            lon: lon,
+            latitude: lat,
+            longitude: lon,
             startLon: longatiude,
-            startLat: lattude,
+            startLat: latitude,
             radius: raidus,
             availableBikes: availableBikes
           });

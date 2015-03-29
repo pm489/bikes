@@ -62,8 +62,8 @@ describe('can find nearest bikes', function () {
 
     bikes.getNearestBike(location, radius).then(function (results) {
      console.log(results);
-     assert.equal(results.lat, resultLat);
-     assert.equal(results.lon, resultLng);
+     assert.equal(results.latitude, resultLat);
+     assert.equal(results.longitude, resultLng);
      assert.equal(results.startLon, lon);
      assert.equal(results.startLat, lat);
      assert.equal(results.radius, radius);
@@ -130,15 +130,16 @@ describe('can find nearest bikes', function () {
 
     bikes.getNearestBike(location, radius).then(function (results) {
       console.log(results);
-      assert.equal(results.lat, resultLat);
-      assert.equal(results.lon, resultLng);
+      assert.equal(results.latitude, resultLat);
+      assert.equal(results.longitude, resultLng);
       assert.equal(results.startLon, lon);
       assert.equal(results.startLat, lat);
       assert.equal(results.radius, radius);
       assert.equal(results.availableBikes, totalBikes);
       done();
     }).catch(function(error){
-      assert.equal(error.message,"{status:500");
+      assert.equal(error.message,"{status:500}");
+      done();
     }).done();
   });
 });
