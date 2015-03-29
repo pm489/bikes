@@ -2,6 +2,29 @@
 
 var app = angular.module('yoAngularApp');
 
+app.factory('mapMarkers', function () {
+
+  var markers = {};
+
+  markers.makeMarker = function (response, id, header, content) {
+    var contentString = '<div><h3>' + (angular.isUndefined(header)?'':header) + '</h3><p>' + (angular.isUndefined(content)?'':content) + '</p></div>';
+    var item = {
+      show: false,
+      id: id,
+      options: {maxWidth: 400, content: contentString},
+      latitude: response.latitude,
+      longitude: response.longitude
+    };
+    item.onClick = function () {
+      item.show = !item.show;
+    };
+    return item;
+  };
+
+  return markers;
+
+});
+
 app.factory('userLocationDetails', function ($http) {
   var details = {};
 
@@ -22,7 +45,7 @@ app.factory('userLocationDetails', function ($http) {
   return details;
 });
 
-app.controller('MainCtrl', function ($scope, userLocationDetails) {
+app.controller('MainCtrl', function ($scope, userLocationDetails, mapMarkers) {
   $scope.userDetails = {
     location: 'Lincoln',
     'longitude': 96.41,
@@ -45,12 +68,8 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   $scope.submit = function () {
     userLocationDetails.getNearestBike($scope.userDetails.location, $scope.radius).then(function (response) {
       console.log(response);
-
-      var items = {id: 'start',
-        latitude: response.lat,
-        options: {maxWidth: 400, content: contentString},
-        longitude: response.lon};
-      $scope.markers.marker.push(makeMarker(response));
+      var id = $scope.markers.marker.length + 1;
+      $scope.markers.marker.push(mapMarkers.makeMarker(response, id, response.commonName, 'No of free bikes: ' + response.NbBikes + '<br> No of emptry spaces: ' + response.NbEmptyDocks));
     });
   };
 
@@ -59,25 +78,10 @@ app.controller('MainCtrl', function ($scope, userLocationDetails) {
   userLocationDetails.setUserDetails().then(function (response) {
     console.log(response);
     $scope.userDetails = {location: response.city, latitude: response.latitude, longitude: response.longitude};
-    $scope.markers.marker.push(makeMarker(response,'home','You right now'));
+    $scope.markers.marker.push(mapMarkers.makeMarker(response, 'home', 'You right now'));
   }).catch(function () {
     $scope.serviceError = true;
   });
-
-  var makeMarker = function(response, id, header, content){
-    var contentString = '<div><h3>'+header+'</h3><p>'+content+'</p></div>';
-    var item = {
-      show: false,
-      id: id,
-      options: {maxWidth: 400, content: contentString},
-      latitude: response.latitude,
-      longitude: response.longitude
-    };
-    item.onClick = function () {
-      item.show = !item.show;
-    };
-    return item;
-  };
 
   var updateCenter = function () {
     $scope.map.center = {
