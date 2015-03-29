@@ -51,6 +51,8 @@ app.controller('MainCtrl', function ($scope, userLocationDetails, mapMarkers) {
     'longitude': 96.41,
     'latitude': 40.49
   };
+
+
   $scope.radius = 500;
 
   $scope.map = {

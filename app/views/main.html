@@ -7,17 +7,17 @@
   </p>
 
   <form ng-submit="submit()">
-    Where I am: <input type="text" ng-model="userDetails.location"/>
-    <input type="text" ng-model="radius"/>
+    <label>Where I am:</label> <input type="text" ng-model="userDetails.location"/>
+    <label>Where I want to go:</label> <input type="text" placeholder="where to?" ng-model="destination"/>
+    <label>Radius:</label> <input type="text" ng-model="radius"/>
     <input type="submit" value="cycle time"/>
   </form>
-
 </div>
 
 <div>
   <ui-gmap-google-map center="map.center" zoom="map.zoom">
-    <ui-gmap-layer  type="BicyclingLayer" show="true"></ui-gmap-layer>
-    <ui-gmap-markers models="markers.marker" coords="'self'" click="'onClick'" >
+    <ui-gmap-layer type="BicyclingLayer" show="true"></ui-gmap-layer>
+    <ui-gmap-markers models="markers.marker" coords="'self'" click="'onClick'">
       <ui-gmap-windows show="show" options="'options'">
       </ui-gmap-windows>
     </ui-gmap-markers>
