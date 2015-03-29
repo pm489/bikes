@@ -38,7 +38,7 @@ describe('Factory:', function () {
 
     it('should hide undefined content', function () {
       var header = 'Header',
-        marker = mapFactory.makeMarker({latitude: 123, longitude: 456}, 1, header,undefined);
+        marker = mapFactory.makeMarker({latitude: 123, longitude: 456}, 1, header, undefined);
 
 
       expect(marker.latitude).toBe(123);

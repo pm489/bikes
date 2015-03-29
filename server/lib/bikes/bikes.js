@@ -20,7 +20,6 @@ var geocodeLocation = function (location) {
         body = JSON.parse(body);
         if (body['status'] == 'OK') {
           var location = body['results'][0]['geometry']['location'];
-          console.log(location);
           deferred.resolve({lon: location.lng, lat: location.lat});
         } else {
           deferred.reject(new Error("no results found for that location and body.status is" + JSON.stringify(body['status'])));
@@ -37,7 +36,6 @@ var geocodeLocation = function (location) {
 var getNearestBikeDock = function (longatiude, latitude, raidus) {
   var deferred = Q.defer();
 
-  console.log('http://api.tfl.gov.uk/BikePoint?lat=' + latitude + '&lon=' + longatiude + '&radius=' + raidus + '&app_id=&app_key=');
 
   http.get('http://api.tfl.gov.uk/BikePoint?lat=' + latitude + '&lon=' + longatiude + '&radius=' + raidus + '&app_id=&app_key=', function (response) {
     if (response.statusCode === 200) {
@@ -77,7 +75,6 @@ var getNearestBikeDock = function (longatiude, latitude, raidus) {
              bikeDetails[item['key']] = item['value'];
           });
 
-          console.log(bikeDetails);
           deferred.resolve(bikeDetails);
         }
       })

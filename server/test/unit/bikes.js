@@ -1,7 +1,7 @@
 var assert = require('assert');
 var bikes = require('../../lib/bikes/bikes.js');
-var nock = require('nock');
 
+var nock = require('nock');
 
 describe('Bikes', function () {
 

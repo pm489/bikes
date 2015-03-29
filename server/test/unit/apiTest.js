@@ -4,6 +4,8 @@ var nock = require('nock');
 
 describe('can find nearest bikes', function () {
 
+
+
   it('using location and radius', function (done) {
     var lat = 123,
       lon = 456,
@@ -70,7 +72,6 @@ describe('can find nearest bikes', function () {
 
 
     bikes.getNearestBike(location, radius).then(function (results) {
-      console.log(results);
       assert.equal(results.latitude, resultLat);
       assert.equal(results.longitude, resultLng);
       assert.equal(results.startLon, lon);

@@ -36,7 +36,6 @@ describe('Bikes', function () {
     var radius = 1000;
 
     bikes.getNearestBike(location, radius).then(function (results) {
-      console.log(results);
       assert.equal(results.latitude, 51.508103);
       assert.equal(results.longitude, -0.126021);
       assert.equal(results.startLon, -0.1277583);

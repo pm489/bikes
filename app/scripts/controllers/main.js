@@ -47,7 +47,7 @@ app.factory('userLocationDetails', function ($http) {
 )
 ;
 
-app.controller('MainCtrl', function ($scope, $q, userLocationDetails, mapMarkers) {
+app.controller('MainCtrl', function ($scope, $q, $filter, userLocationDetails, mapMarkers) {
   $scope.userDetails = {
     location: 'London',
     longitude: -0.1333,
@@ -104,10 +104,17 @@ app.controller('MainCtrl', function ($scope, $q, userLocationDetails, mapMarkers
 
   $scope.submit = function () {
     nearestBike($scope.userDetails.location, $scope.userDetails.radius, 'start').then(function (result) {
+      $scope.markers.marker = $scope.markers.marker.filter(function (item) {
+        return item.id !== result.id;
+      });
       $scope.markers.marker.push(result);
       if (!angular.isUndefined($scope.userDetails.destination) || $scope.userDetails.destination !== '') {
-        nearestBike($scope.userDetails.destination, $scope.userDetails.radius, 'destination').then(function (results) {
-          $scope.markers.marker.push(results);
+
+        nearestBike($scope.userDetails.destination, $scope.userDetails.radius, 'destination').then(function (result) {
+          $scope.markers.marker = $scope.markers.marker.filter(function (item) {
+            return item.id !== result.id;
+          });
+          $scope.markers.marker.push(result);
         });
       }
     }).catch(function (error) {
