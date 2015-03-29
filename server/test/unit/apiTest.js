@@ -11,6 +11,7 @@ describe('can find nearest bikes', function () {
       location = 'london',
       resultLat = 51.502279,
       resultLng = -0.074189,
+      commonName = "Somewhere, someplace",
       totalBikes = "8";
 
     nock('http://maps.googleapis.com').get('/maps/api/geocode/json?address=' + location)
@@ -26,7 +27,7 @@ describe('can find nearest bikes', function () {
         }]
       });
 
-    nock('http://api.tfl.gov.uk')
+      nock('http://api.tfl.gov.uk')
       .get('/BikePoint?lat=' + lat + '&lon=' + lon + '&radius=' + radius + '&app_id=&app_key=')
       .reply(200, {
         "$type": "Tfl.Api.Presentation.Entities.PlacesResponse, Tfl.Api.Presentation.Entities",
@@ -39,7 +40,7 @@ describe('can find nearest bikes', function () {
             "$type": "Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities",
             "id": "BikePoints_298",
             "url": "http://api.prod6.live.tfl.gov.uk/Place/BikePoints_298",
-            "commonName": "Curlew Street, Shad Thames",
+            "commonName": commonName,
             "distance": 596.6703936461496,
             "placeType": "BikePoint",
             "additionalProperties": [
@@ -47,6 +48,14 @@ describe('can find nearest bikes', function () {
                 "$type": "Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities",
                 "category": "Description",
                 "key": "NbBikes",
+                "sourceSystemKey": "BikePoints",
+                "value": totalBikes,
+                "modified": "2015-03-28T15:10:06.663"
+              },
+              {
+                "$type": "Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities",
+                "category": "Description",
+                "key": "NbEmptyDocks",
                 "sourceSystemKey": "BikePoints",
                 "value": totalBikes,
                 "modified": "2015-03-28T15:10:06.663"
@@ -61,15 +70,17 @@ describe('can find nearest bikes', function () {
 
 
     bikes.getNearestBike(location, radius).then(function (results) {
-     console.log(results);
-     assert.equal(results.latitude, resultLat);
-     assert.equal(results.longitude, resultLng);
-     assert.equal(results.startLon, lon);
-     assert.equal(results.startLat, lat);
-     assert.equal(results.radius, radius);
-     assert.equal(results.availableBikes, totalBikes);
-     done();
-     }).done();
+      console.log(results);
+      assert.equal(results.latitude, resultLat);
+      assert.equal(results.longitude, resultLng);
+      assert.equal(results.startLon, lon);
+      assert.equal(results.startLat, lat);
+      assert.equal(results.radius, radius);
+      assert.equal(results.commonName, commonName);
+      assert.equal(results.NbBikes, totalBikes);
+      assert.equal(results.NbEmptyDocks, totalBikes);
+      done();
+    }).done();
   });
 
   it('errors bubble', function (done) {
@@ -128,17 +139,8 @@ describe('can find nearest bikes', function () {
       });
 
 
-    bikes.getNearestBike(location, radius).then(function (results) {
-      console.log(results);
-      assert.equal(results.latitude, resultLat);
-      assert.equal(results.longitude, resultLng);
-      assert.equal(results.startLon, lon);
-      assert.equal(results.startLat, lat);
-      assert.equal(results.radius, radius);
-      assert.equal(results.availableBikes, totalBikes);
-      done();
-    }).catch(function(error){
-      assert.equal(error.message,"{status:500}");
+    bikes.getNearestBike(location, radius).catch(function (error) {
+      assert.equal(error.message, "{status:500}");
       done();
     }).done();
   });

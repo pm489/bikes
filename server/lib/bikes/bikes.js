@@ -53,31 +53,32 @@ var getNearestBikeDock = function (longatiude, latitude, raidus) {
         if (places.length == 0) {
           deferred.reject(new Error("no places found, try a new location or a bigger radius"));
         } else {
-          var nearestPlace = __.sortBy(places, function(obj){return obj.distance})[0];
-          var lat = nearestPlace['lat'];
-          var lon = nearestPlace['lon'];
+          var nearestPlace = __.sortBy(places, function (obj) {
+            return obj.distance
+          })[0];
           var extraInfo = nearestPlace['additionalProperties'];
 
-          var availableBikes = __.find(extraInfo, function (info) {
-            return info["key"] === 'NbBikes';
-          })['value'];
 
-          console.log({
-            lat: lat,
-            lon: lon,
+          var availableBikesAndEmptyDocks = __.filter(extraInfo, function (info) {
+            return info['key'] === 'NbBikes' || info['key'] === 'NbEmptyDocks';
+          });
+
+          var bikeDetails = {
+            commonName: nearestPlace['commonName'],
+            latitude: nearestPlace['lat'],
+            longitude: nearestPlace['lon'],
             startLon: longatiude,
             startLat: latitude,
-            radius: raidus,
-            availableBikes: availableBikes
+            radius: raidus
+          };
+
+
+          __.each(availableBikesAndEmptyDocks,function(item){
+             bikeDetails[item['key']] = item['value'];
           });
-          deferred.resolve({
-            latitude: lat,
-            longitude: lon,
-            startLon: longatiude,
-            startLat: latitude,
-            radius: raidus,
-            availableBikes: availableBikes
-          });
+
+          console.log(bikeDetails);
+          deferred.resolve(bikeDetails);
         }
       })
     } else {

@@ -14,9 +14,11 @@ describe('Bikes', function () {
 
     it('using lat and lon', function (done) {
 
-      var resultLat = 51.502279;
-      var resultLng = -0.074189;
-      var totalBikes = "8";
+      var resultLat = 51.502279,
+        resultLng = -0.074189,
+        totalBikes = "8",
+        commonName = "Curlew Street, Shad Thames";
+
       nock('http://api.tfl.gov.uk').get('/BikePoint?lat=' + lat + '&lon=' + lon + '&radius=' + radius + '&app_id=&app_key=')
         .reply(200, {
           "$type": "Tfl.Api.Presentation.Entities.PlacesResponse, Tfl.Api.Presentation.Entities",
@@ -29,7 +31,7 @@ describe('Bikes', function () {
               "$type": "Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities",
               "id": "BikePoints_298",
               "url": "http://api.prod6.live.tfl.gov.uk/Place/BikePoints_298",
-              "commonName": "Curlew Street, Shad Thames",
+              "commonName": commonName,
               "distance": 596.6703936461496,
               "placeType": "BikePoint",
               "additionalProperties": [
@@ -37,6 +39,14 @@ describe('Bikes', function () {
                   "$type": "Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities",
                   "category": "Description",
                   "key": "NbBikes",
+                  "sourceSystemKey": "BikePoints",
+                  "value": totalBikes,
+                  "modified": "2015-03-28T15:10:06.663"
+                },
+                {
+                  "$type": "Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities",
+                  "category": "Description",
+                  "key": "NbEmptyDocks",
                   "sourceSystemKey": "BikePoints",
                   "value": totalBikes,
                   "modified": "2015-03-28T15:10:06.663"
@@ -56,7 +66,9 @@ describe('Bikes', function () {
         assert.equal(results.startLon, lon);
         assert.equal(results.startLat, lat);
         assert.equal(results.radius, radius);
-        assert.equal(results.availableBikes, totalBikes);
+        assert.equal(results.commonName, commonName);
+        assert.equal(results.NbBikes, totalBikes);
+        assert.equal(results.NbEmptyDocks, totalBikes);
         done();
       }).done();
 
