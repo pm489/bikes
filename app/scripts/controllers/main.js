@@ -35,9 +35,8 @@ app.factory('userLocationDetails', function ($http) {
       );
     };
 
-    details.getNearestBike = function (location, radius) {
-      var host = 'http://localhost:3000';
-      return $http.get(host + '/bikes?location=' + location + '&radius=' + radius).then(function (result) {
+    details.getNearestBike = function (location, radius) {  
+      return $http.get( '/bikes?location=' + location + '&radius=' + radius).then(function (result) {
         return result.data;
       });
     };
