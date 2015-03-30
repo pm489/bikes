@@ -13,10 +13,10 @@ Before running the app you need to have [node](https://nodejs.org/) and [npm](ht
 You will also need [bower](http://bower.io/)
 
 * Server:
-'''
+
   cd /server
   npm install
-'''
+
 * Web page 
 
   cd app/
