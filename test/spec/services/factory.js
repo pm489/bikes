@@ -112,7 +112,7 @@ describe('Factory:', function () {
       var radius = 200;
       var availableBikes = '21';
 
-      httpBackend.expectGET('http://localhost:3000/bikes?location=london&radius=200').respond(200, {
+      httpBackend.expectGET('/bikes?location=london&radius=200').respond(200, {
         'lat': lat,
         'lon': lon,
         'startLon': startLon,
