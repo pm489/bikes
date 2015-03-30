@@ -1,23 +1,31 @@
-# bikes
-Starting it up:
+# Bikes
 
-The project contains two aspects:
+This is an app that will let you find the nearest boris bike dock to a start location and a destination location. This is a london centric app as thats where the boris bikes live!
 
-Server:
 
-This contains a rest api needed by the web page. To start this up:
-cd /server
-npm install
+## Running the project
 
-Web page 
+The project has to parts to it, the client and the server. The server is an node application that servers up a custom rest endpoint. 
 
-cd app/
-bower install
+###Starting:
+
+Before running the app you need to have [node](https://nodejs.org/) and [npm](https://www.npmjs.com/).
+You will also need [bower](http://bower.io/)
+
+* Server:
+'''
+  cd /server
+  npm install
+'''
+* Web page 
+
+  cd app/
+  bower install
 
 then to get it running
 
-cd server
-node app.js
+  cd server
+  node app.js
 
 should be up and running locally.
 
