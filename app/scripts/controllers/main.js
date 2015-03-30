@@ -46,7 +46,7 @@ app.factory('userLocationDetails', function ($http) {
 )
 ;
 
-app.controller('MainCtrl', function ($scope, $q, $filter, userLocationDetails, mapMarkers) {
+app.controller('MainCtrl', function ($scope, $q, $filter, userLocationDetails, mapMarkers, uiGmapIsReady) {
   $scope.userDetails = {
     location: 'London',
     longitude: -0.1333,
@@ -69,12 +69,12 @@ app.controller('MainCtrl', function ($scope, $q, $filter, userLocationDetails, m
   });
 
   $scope.map = {
-    control:{},
+    control: {},
     center: {
       latitude: $scope.userDetails.latitude,
       longitude: $scope.userDetails.longitude
     },
-    zoom: 10
+    zoom: 16
   };
 
   var updateCenter = function () {
@@ -116,10 +116,22 @@ app.controller('MainCtrl', function ($scope, $q, $filter, userLocationDetails, m
           });
           $scope.markers.marker.push(result);
         });
+        adjustBound();
       }
     }).catch(function (error) {
       console.log(error.message);
     });
   };
 
+  var adjustBound = function () {
+    uiGmapIsReady.promise().then(function () {
+      var bounds = new google.maps.LatLngBounds();
+      for (var it in $scope.markers.marker) {
+        var parentNode = new google.maps.LatLng($scope.markers.marker[it].latitude, $scope.markers.marker[it].longitude);
+        bounds.extend(parentNode);
+      }
+      $scope.map.control.getGMap().fitBounds(bounds);
+
+    });
+  };
 });
