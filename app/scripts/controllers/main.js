@@ -35,8 +35,8 @@ app.factory('userLocationDetails', function ($http) {
       );
     };
 
-    details.getNearestBike = function (location, radius) {  
-      return $http.get( '/bikes?location=' + location + '&radius=' + radius).then(function (result) {
+    details.getNearestBike = function (location, radius) {
+      return $http.get('/bikes?location=' + location + '&radius=' + radius).then(function (result) {
         return result.data;
       });
     };
@@ -69,11 +69,12 @@ app.controller('MainCtrl', function ($scope, $q, $filter, userLocationDetails, m
   });
 
   $scope.map = {
+    control:{},
     center: {
       latitude: $scope.userDetails.latitude,
       longitude: $scope.userDetails.longitude
     },
-    zoom: 12
+    zoom: 10
   };
 
   var updateCenter = function () {
