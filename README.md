@@ -23,12 +23,12 @@ You will also need [bower](http://bower.io/)
   bower install
 ```
 then to get it running
-
+```
   cd server
   node app.js
-
+```
 should be up and running locally.
 
-If you want to run tests for the server you will need (mocha)[http://mochajs.org/] and (nock)[https://github.com/pgte/nock]
+If you want to run tests for the server you will need [mocha](http://mochajs.org/) and [nock](https://github.com/pgte/nock)
 
-If you want to run the tests for the front end you will need (karam)[http://karma-runner.github.io/0.12/index.html] and (jasmine)[http://jasmine.github.io/]
+If you want to run the tests for the front end you will need [karam](http://karma-runner.github.io/0.12/index.html) and [jasmine](http://jasmine.github.io/)
