@@ -27,7 +27,7 @@ then to get it running
   cd server
   node app.js
 ```
-should be up and running locally.
+should be up and running locally. You can hit it on port 3000.
 
 If you want to run tests for the server you will need [mocha](http://mochajs.org/) and [nock](https://github.com/pgte/nock)
 
