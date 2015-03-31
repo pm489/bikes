@@ -10,7 +10,7 @@ A few good example locations if you want to try it out are:
 
 ## Running the project
 
-The project has to parts to it, the client and the server. The server is an node application that servers up a custom rest endpoint. 
+The project has to parts to it, the client and the server. The server is a node application that servers up a custom rest endpoint. 
 
 ###Starting:
 
