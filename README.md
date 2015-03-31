@@ -2,6 +2,11 @@
 
 This is an app that will let you find the nearest boris bike dock to a start location and a destination location. This is a london centric app as thats where the boris bikes live!
 
+A few good example locations if you want to try it out are:
+- British Museum
+- Poplar
+- Tower Hill
+- Canary Wharf
 
 ## Running the project
 
